@@ -1723,7 +1723,9 @@ class DeepSpeedEngine(Module):
         self._start_timers(self.engine_timers.forward_timers)
 
         if self.training_dataloader is None:
-            self.tput_timer.start()
+            pass
+            # disable tput timer since it introduces synchronization
+            # self.tput_timer.start()
 
         if self.fp16_auto_cast():
             inputs = self._cast_inputs_half(inputs)
@@ -2050,7 +2052,7 @@ class DeepSpeedEngine(Module):
 
             report_progress = self.global_rank == 0 if self.global_rank else True
 
-        self.tput_timer.stop(global_step=self.is_gradient_accumulation_boundary(), report_speed=report_progress)
+        # self.tput_timer.stop(global_step=self.is_gradient_accumulation_boundary(), report_speed=report_progress)
 
         self._stop_timers(self.engine_timers.step_timers)
 
